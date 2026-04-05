@@ -11,6 +11,10 @@ app.use("/wellcome",(req,res)=> {
     res.send('Wellcome from server!');
 });
 
+app.use("/help",(req,res)=> {
+    res.send('Wellcome from server!');
+});
+
 
 
 
