@@ -1,21 +1,26 @@
 const express = require('express');
+require('dotenv').config();
+const connectDB = require('./config/database');
+const auth = require('./middleware/auth.js');
+
 const app = express();
 
-
-app.use("/test",(req,res)=> {
-    res.send('Hello from server!');
-})
-
-
-app.use("/wellcome",(req,res)=> {
-    res.send('Wellcome from server!');
+app.get('/user/login', (req, res) => {
+    res.send("User logged in successfully");
 });
 
-app.use("/help",(req,res)=> {
-    res.send('Wellcome from server!');
+app.get('/user/profile', auth, (req, res) => {
+    res.send("User profile fetched successfully");
 });
 
-
-
-
-app.listen(3000,()=>{console.log('Server  is running on port 3000...')});
+connectDB()
+    .then(() => {
+        console.log('Connected to MongoDB');
+        app.listen(3000, () => {
+            console.log('Server is running on port 3000...');
+        });
+    })
+    .catch((error) => {
+        console.error('Error connecting to MongoDB:', error.message);
+        process.exit(1);
+    });
